@@ -49,11 +49,15 @@ def setup_hermes_config():
         os.remove(auth_json_path)
         print("Cleared stale auth.json cache.")
 
-    # Write config.yaml enabling verified Gemini 3.6 Flash + Full Toolset for Telegram
+    # Write config.yaml using OpenAI-compatible Gemini 3.6 Flash endpoint (bypasses RPD gate locking)
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
   default: gemini-3.6-flash
-  provider: gemini
+  provider: custom_openai
+custom_providers:
+  custom_openai:
+    base_url: https://generativelanguage.googleapis.com/v1beta/openai/
+    api_key_env: GOOGLE_API_KEY
 agent:
   max_turns: 120
   verbose: false
