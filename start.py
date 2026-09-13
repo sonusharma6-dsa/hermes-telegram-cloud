@@ -43,10 +43,10 @@ def setup_hermes_config():
     config_dir = os.path.expanduser("~/.hermes")
     os.makedirs(config_dir, exist_ok=True)
 
-    # Write config.yaml to enforce OpenRouter auto model and disable reasoning effort (prevents 400 & 429 gateway errors)
+    # Write config.yaml to enforce openrouter/free as default model (verified HTTP 200) and disable reasoning effort
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
-  default: openrouter/auto
+  default: openrouter/free
   provider: openrouter
 agent:
   max_turns: 120
