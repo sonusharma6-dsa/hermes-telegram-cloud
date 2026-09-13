@@ -49,18 +49,16 @@ def setup_hermes_config():
         os.remove(auth_json_path)
         print("Cleared stale auth.json cache.")
 
-    # Ensure GEMINI_BASE_URL and GEMINI_API_KEY environment variables are populated
+    # Ensure GEMINI_API_KEY environment variable is populated
     google_key = os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
     if google_key:
         os.environ["GOOGLE_API_KEY"] = google_key
         os.environ["GEMINI_API_KEY"] = google_key
 
-    os.environ["GEMINI_BASE_URL"] = "https://generativelanguage.googleapis.com/v1beta/openai"
-
-    # Write config.yaml using provider gemini with gemini-3.6-flash
+    # Write config.yaml enabling stable gemini-flash-latest with 1,500 RPD quota
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
-  default: gemini-3.6-flash
+  default: gemini-flash-latest
   provider: gemini
 agent:
   max_turns: 120
@@ -141,7 +139,7 @@ platforms:
 
     # Write .env file in ~/.hermes if environment variables exist
     env_path = os.path.join(config_dir, ".env")
-    env_vars = ["OPENROUTER_API_KEY", "GOOGLE_API_KEY", "GEMINI_API_KEY", "GEMINI_BASE_URL", "TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_USERS", "KAGGLE_API_TOKEN", "GH_TOKEN", "GITHUB_TOKEN"]
+    env_vars = ["OPENROUTER_API_KEY", "GOOGLE_API_KEY", "GEMINI_API_KEY", "TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_USERS", "KAGGLE_API_TOKEN", "GH_TOKEN", "GITHUB_TOKEN"]
     env_lines = []
     for var in env_vars:
         val = os.environ.get(var)
