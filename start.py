@@ -20,6 +20,40 @@ def run_health_server():
     print(f"Render Health Server listening on port {port}...")
     server.serve_forever()
 
+def setup_hermes_config():
+    config_dir = os.path.expanduser("~/.hermes")
+    os.makedirs(config_dir, exist_ok=True)
+
+    # Write config.yaml to enforce OpenRouter auto model and disable reasoning effort (prevents 400 & 429 gateway errors)
+    config_path = os.path.join(config_dir, "config.yaml")
+    config_content = """model:
+  default: openrouter/auto
+  provider: openrouter
+agent:
+  max_turns: 120
+  verbose: false
+  reasoning_effort: none
+display:
+  show_reasoning: false
+"""
+    with open(config_path, "w") as f:
+        f.write(config_content)
+    print("Configured ~/.hermes/config.yaml")
+
+    # Write .env file in ~/.hermes if environment variables exist
+    env_path = os.path.join(config_dir, ".env")
+    env_vars = ["OPENROUTER_API_KEY", "GOOGLE_API_KEY", "TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_USERS", "KAGGLE_API_TOKEN"]
+    env_lines = []
+    for var in env_vars:
+        val = os.environ.get(var)
+        if val:
+            env_lines.append(f"{var}={val}")
+
+    if env_lines:
+        with open(env_path, "w") as f:
+            f.write("\n".join(env_lines) + "\n")
+        print("Configured ~/.hermes/.env")
+
 def setup_kaggle():
     api_token = os.environ.get("KAGGLE_API_TOKEN")
     username = os.environ.get("KAGGLE_USERNAME")
@@ -42,6 +76,7 @@ def setup_kaggle():
         print("Configured Kaggle legacy json credentials.")
 
 if __name__ == "__main__":
+    setup_hermes_config()
     setup_kaggle()
 
     # Start health check server thread for Render Free Web Service
