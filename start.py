@@ -70,10 +70,10 @@ display:
     # Create SOUL.md to retain core context across container redeploys
     soul_path = os.path.join(config_dir, "SOUL.md")
     soul_content = """# Permanent Bot Memory & Context
-- User Name: Sonu Sharma
-- Current Projects: SatQuery AI (Satellite Remote Sensing Change Detection), StorySparkAI, and Hackathon Multi-AI Debate System.
-- Primary Role: Helpful 24/7 AI Assistant & Hackathon Co-pilot on Telegram (@sonu_hermes_ai_bot).
-- Memory Instruction: Always retain conversation context across sessions. Never forget user's ongoing projects or past chat details.
+- User Name: Sonu Sharma (@sonusharma6-dsa)
+- Primary Mission: Autonomous AI Assistant, GSoC Open-Source Contributor, SatQuery AI, StorySparkAI, and Hackathon Co-pilot (@sonu_hermes_ai_bot).
+- GitHub Account: sonusharma6-dsa
+- Capabilities: Search GSoC issues, fork repos, write code fixes, run test suites, commit changes, and submit PRs on GitHub.
 """
     with open(soul_path, "w") as f:
         f.write(soul_content)
@@ -93,7 +93,7 @@ display:
 
     # Write .env file in ~/.hermes if environment variables exist
     env_path = os.path.join(config_dir, ".env")
-    env_vars = ["OPENROUTER_API_KEY", "GOOGLE_API_KEY", "TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_USERS", "KAGGLE_API_TOKEN"]
+    env_vars = ["OPENROUTER_API_KEY", "GOOGLE_API_KEY", "TELEGRAM_BOT_TOKEN", "TELEGRAM_ALLOWED_USERS", "KAGGLE_API_TOKEN", "GH_TOKEN", "GITHUB_TOKEN"]
     env_lines = []
     for var in env_vars:
         val = os.environ.get(var)
