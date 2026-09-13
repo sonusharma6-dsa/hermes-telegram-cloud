@@ -1,0 +1,4 @@
+hermes-agent
+python-telegram-bot>=22.6,<23
+requests
+pyyaml
