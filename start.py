@@ -43,11 +43,11 @@ def setup_hermes_config():
     config_dir = os.path.expanduser("~/.hermes")
     os.makedirs(config_dir, exist_ok=True)
 
-    # Write config.yaml to enforce openrouter/free, long 7-day session memory & user profile memory
+    # Write config.yaml enabling Gemini 2.5 Flash + Web Search + Full Toolset for Telegram
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
-  default: openrouter/free
-  provider: openrouter
+  default: gemini-2.5-flash
+  provider: gemini
 agent:
   max_turns: 120
   verbose: false
@@ -62,6 +62,40 @@ session_reset:
 group_sessions_per_user: true
 display:
   show_reasoning: false
+platform_toolsets:
+  cli:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - cronjob
+    - delegation
+    - file
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - vision
+    - web
+  telegram:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - cronjob
+    - delegation
+    - file
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - vision
+    - web
+platforms:
+  telegram:
+    enabled: true
 """
     with open(config_path, "w") as f:
         f.write(config_content)
@@ -73,7 +107,7 @@ display:
 - User Name: Sonu Sharma (@sonusharma6-dsa)
 - Primary Mission: Autonomous AI Assistant, GSoC Open-Source Contributor, SatQuery AI, StorySparkAI, and Hackathon Co-pilot (@sonu_hermes_ai_bot).
 - GitHub Account: sonusharma6-dsa
-- Capabilities: Search GSoC issues, fork repos, write code fixes, run test suites, commit changes, and submit PRs on GitHub.
+- Capabilities: Web Search, Browse Websites, Search GSoC issues, fork repos, write code fixes, run test suites, commit changes, and submit PRs on GitHub.
 """
     with open(soul_path, "w") as f:
         f.write(soul_content)
