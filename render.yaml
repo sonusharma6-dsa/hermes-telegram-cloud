@@ -3,6 +3,7 @@ services:
     name: hermes-telegram-bot
     env: docker
     dockerfilePath: ./Dockerfile
+    autoDeploy: true
     envVars:
       - key: TELEGRAM_BOT_TOKEN
         sync: false
@@ -11,4 +12,6 @@ services:
       - key: OPENROUTER_API_KEY
         sync: false
       - key: GOOGLE_API_KEY
+        sync: false
+      - key: KAGGLE_API_TOKEN
         sync: false
