@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import shutil
 import threading
 import requests
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -29,7 +30,7 @@ def keep_alive_pinger():
     time.sleep(10)  # Wait for server startup
     url = os.environ.get("RENDER_EXTERNAL_URL", "https://hermes-telegram-cloud-5ry0.onrender.com")
     print(f"Self-ping keep-alive loop started targeting: {url}")
-    
+
     while True:
         try:
             resp = requests.get(url, timeout=15)
@@ -57,6 +58,18 @@ display:
     with open(config_path, "w") as f:
         f.write(config_content)
     print("Configured ~/.hermes/config.yaml")
+
+    # Copy repository skills to ~/.hermes/skills/
+    local_skills_dir = os.path.join(os.path.dirname(__file__), "skills")
+    target_skills_dir = os.path.join(config_dir, "skills")
+    if os.path.exists(local_skills_dir):
+        os.makedirs(target_skills_dir, exist_ok=True)
+        for item in os.listdir(local_skills_dir):
+            s_src = os.path.join(local_skills_dir, item)
+            s_dst = os.path.join(target_skills_dir, item)
+            if os.path.isdir(s_src):
+                shutil.copytree(s_src, s_dst, dirs_exist_ok=True)
+        print("Copied custom skills to ~/.hermes/skills/")
 
     # Write .env file in ~/.hermes if environment variables exist
     env_path = os.path.join(config_dir, ".env")
