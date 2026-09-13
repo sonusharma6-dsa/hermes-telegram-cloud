@@ -43,7 +43,7 @@ def setup_hermes_config():
     config_dir = os.path.expanduser("~/.hermes")
     os.makedirs(config_dir, exist_ok=True)
 
-    # Write config.yaml to enforce openrouter/free as default model (verified HTTP 200) and disable reasoning effort
+    # Write config.yaml to enforce openrouter/free, long 7-day session memory & user profile memory
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
   default: openrouter/free
@@ -52,12 +52,32 @@ agent:
   max_turns: 120
   verbose: false
   reasoning_effort: none
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+  nudge_interval: 5
+session_reset:
+  mode: idle
+  idle_minutes: 10080
+group_sessions_per_user: true
 display:
   show_reasoning: false
 """
     with open(config_path, "w") as f:
         f.write(config_content)
     print("Configured ~/.hermes/config.yaml")
+
+    # Create SOUL.md to retain core context across container redeploys
+    soul_path = os.path.join(config_dir, "SOUL.md")
+    soul_content = """# Permanent Bot Memory & Context
+- User Name: Sonu Sharma
+- Current Projects: SatQuery AI (Satellite Remote Sensing Change Detection), StorySparkAI, and Hackathon Multi-AI Debate System.
+- Primary Role: Helpful 24/7 AI Assistant & Hackathon Co-pilot on Telegram (@sonu_hermes_ai_bot).
+- Memory Instruction: Always retain conversation context across sessions. Never forget user's ongoing projects or past chat details.
+"""
+    with open(soul_path, "w") as f:
+        f.write(soul_content)
+    print("Configured ~/.hermes/SOUL.md")
 
     # Copy repository skills to ~/.hermes/skills/
     local_skills_dir = os.path.join(os.path.dirname(__file__), "skills")
