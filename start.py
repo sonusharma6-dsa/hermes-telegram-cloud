@@ -43,12 +43,17 @@ def setup_hermes_config():
     config_dir = os.path.expanduser("~/.hermes")
     os.makedirs(config_dir, exist_ok=True)
 
-    # Write config.yaml enabling verified Gemini 3.6 Flash + OpenRouter Fallback + Full Toolset for Telegram
+    # Clear cached auth.json to remove stale 429/exhausted locks
+    auth_json_path = os.path.join(config_dir, "auth.json")
+    if os.path.exists(auth_json_path):
+        os.remove(auth_json_path)
+        print("Cleared stale auth.json cache.")
+
+    # Write config.yaml enabling verified Gemini 3.6 Flash + Full Toolset for Telegram
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
   default: gemini-3.6-flash
   provider: gemini
-  fallback: openrouter/free
 agent:
   max_turns: 120
   verbose: false
