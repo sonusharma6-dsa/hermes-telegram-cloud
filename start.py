@@ -97,13 +97,13 @@ def setup_hermes_config():
         json.dump(auth_data, f, indent=2)
     print("Populated auth.json with active Groq credentials.")
 
-    # Write config.yaml enabling Groq / Gemini with zero rate limits
+    # Write config.yaml enabling Groq with zero rate limits
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
-  default: groq/groq/compound
+  default: groq/compound
   provider: groq
 auxiliary_model:
-  default: groq/groq/compound
+  default: groq/compound
   provider: groq
 agent:
   max_turns: 120
