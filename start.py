@@ -49,17 +49,25 @@ def setup_hermes_config():
         os.remove(auth_json_path)
         print("Cleared stale auth.json cache.")
 
+    # Ensure GROQ_API_KEY environment variable is populated
+    groq_key = os.environ.get("GROQ_API_KEY")
+    if groq_key:
+        os.environ["GROQ_API_KEY"] = groq_key
+
     # Ensure GEMINI_API_KEY environment variable is populated
     google_key = os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
     if google_key:
         os.environ["GOOGLE_API_KEY"] = google_key
         os.environ["GEMINI_API_KEY"] = google_key
 
-    # Write config.yaml enabling stable gemini-flash-latest with 1,500 RPD quota
+    # Write config.yaml enabling Groq / Gemini with zero rate limits
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
-  default: gemini-flash-latest
-  provider: gemini
+  default: groq/groq/compound
+  provider: groq
+auxiliary_model:
+  default: groq/groq/compound
+  provider: groq
 agent:
   max_turns: 120
   verbose: false
