@@ -100,10 +100,10 @@ def setup_hermes_config():
     # Write config.yaml enabling OpenRouter Nemotron Free Model with zero cost
     config_path = os.path.join(config_dir, "config.yaml")
     config_content = """model:
-  default: openrouter/nvidia/nemotron-3.5-lightning:free
+  default: nvidia/nemotron-3.5-lightning:free
   provider: openrouter
 auxiliary_model:
-  default: openrouter/nvidia/nemotron-3.5-lightning:free
+  default: nvidia/nemotron-3.5-lightning:free
   provider: openrouter
 agent:
   max_turns: 120
